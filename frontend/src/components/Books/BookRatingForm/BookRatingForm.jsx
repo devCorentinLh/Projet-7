@@ -22,27 +22,36 @@ function BookRatingForm({
   useEffect(() => {
     if (formState.dirtyFields.rating) {
       const rate = document.querySelector('input[name="rating"]:checked').value;
+      console.log(rate);
       setRating(parseInt(rate, 10));
+      console.log(rating);
       formState.dirtyFields.rating = false;
     }
   }, [formState]);
+
   const onSubmit = async () => {
+    console.log('formulaire envoyé');
     if (!connectedUser || !auth) {
       navigate(APP_ROUTES.SIGN_IN);
     }
     const update = await rateBook(id, userId, rating);
-    console.log(update);
     if (update) {
+      console.log(update);
+      console.log(id);
+      console.log(userId);
+      console.log(rating);
       // eslint-disable-next-line no-underscore-dangle
       setBook({ ...update, id: update._id });
     } else {
+      console.log(update);
       alert(update);
     }
   };
+
   return (
     <div className={styles.BookRatingForm}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <p>{rating > 0 ? 'Votre Note' : 'Notez cet ouvrage'}</p>
+        <p>{!userRated ? 'Notez cet ouvrage' : 'Votre Note'}</p>
         <div className={styles.Stars}>
           {!userRated ? generateStarsInputs(rating, register) : displayStars(rating)}
         </div>

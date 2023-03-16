@@ -66,6 +66,7 @@ function BookForm({ book, validate }) {
   };
 
   const readOnlyStars = !!book;
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.Form}>
       <input type="hidden" id="id" {...register('id')} />

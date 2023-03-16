@@ -64,7 +64,7 @@ function SignIn({ setUser }) {
       }
       setNotification({ error: false, message: 'Votre compte a bien été créé, vous pouvez vous connecter' });
     } catch (err) {
-      setNotification({ error: true, message: err.message });
+      setNotification({ error: true, message: err.response.data.error });
       console.log('Some error occured during signing up: ', err);
     } finally {
       setIsLoading(false);

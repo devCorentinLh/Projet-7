@@ -19,7 +19,6 @@ function Book() {
   const [loading, setLoading] = useState(true);
 
   const params = useParams();
-
   useEffect(() => {
     async function getItem() {
       const data = await getBook(params.id);
@@ -28,7 +27,7 @@ function Book() {
       }
     }
     getItem();
-  }, []);
+  }, [params.id]);
 
   useEffect(() => {
     if (!userLoading && connectedUser && book?.title) {

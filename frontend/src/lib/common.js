@@ -37,6 +37,9 @@ export async function getAuthenticatedUser() {
 export async function getBooks() {
   try {
     const response = await axios({
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
       method: 'GET',
       url: `${API_ROUTES.BOOKS}`,
     });
@@ -52,6 +55,9 @@ export async function getBooks() {
 export async function getBook(id) {
   try {
     const response = await axios({
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
       method: 'GET',
       url: `${API_ROUTES.BOOKS}/${id}`,
     });
@@ -68,6 +74,9 @@ export async function getBook(id) {
 export async function getBestRatedBooks() {
   try {
     const response = await axios({
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
       method: 'GET',
       url: `${API_ROUTES.BEST_RATED}`,
     });
