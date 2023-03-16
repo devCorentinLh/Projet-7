@@ -10,14 +10,14 @@ const userRoutes = require("./routes/user");
 const limiterDatas = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
-  message: "Trop de requêtes API lancées (> 100) dans les 15 dernières minutes."
+  message: "Trop de requêtes en 15 minutes."
 });
 
 mongoose.connect('mongodb+srv://User:test@cluster0.avdakdl.mongodb.net/?retryWrites=true&w=majority',
   { useNewUrlParser: true,
     useUnifiedTopology: true })
-  .then(() => console.log('Connexion à MongoDB réussie !'))
-  .catch(() => console.log('Connexion à MongoDB échouée !'));
+  .then(() => console.log('Connexion à MongoDB ok !'))
+  .catch(() => console.log('Connexion à MongoDB nok !'));
 const app = express();
 
 app.use((req, res, next) => {
