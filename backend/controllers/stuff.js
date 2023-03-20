@@ -6,23 +6,31 @@ const fs = require("fs"); //fs = file system
 exports.createBook = (req, res, next) => {
   const bookObject = JSON.parse(req.body.book);
 
-  delete bookObject.id;
   delete bookObject.userId;
 
   const book = new Book({
     ...bookObject,
+    //ci dessous req.auth.userId récupère la valeur de l'utilisateur connecté
     userId: req.auth.userId,
     imageUrl: `${req.protocol}://${req.get("host")}/images/${
       req.file.filename
     }`,
+    // ci dessous j'avais une petite erreur qui mettais averageRating à null
+    //quand je ne notais pas le livre(pour le laisser à 0), j'ai donc fait en sorte
+    // qu'il récupère la note que je met à ratings.grade
+    averageRating: bookObject.ratings[0].grade
   });
+
+
+
   book
     .save()
     .then(() => res.status(201).json({ message: "Objet enregistré ! " }))
-    .catch((error) => res.status(400).json({ error }));
+    .catch((error) => res.status(400).json({ error: bookObject }));
 };
 
 exports.modifyBook = (req, res, next) => {
+
   const bookObject = req.file
     ? {
         ...JSON.parse(req.body.book),
@@ -31,12 +39,14 @@ exports.modifyBook = (req, res, next) => {
         }`,
       }
     : { ...req.body };
+    
   delete bookObject.userId;
 
   Book.findOne({ _id: req.params.id })
     .then((book) => {
-      console.log(40);
-      console.log(bookObject);
+
+      //ici et pour chaque route demandant l'authentification de l'utilisateur ayant créé le livre
+      // je demande si userId du livre est égal à celui connecté.
       if (book.userId !== req.auth.userId) {
         res
           .status(401)
@@ -82,7 +92,6 @@ exports.deleteBook = (req, res, next) => {
         res.status(401).json({ message: "Non autorisé" });
       } else {
         const filename = book.imageUrl.split("/images/")[1];
-
         fs.unlink(`images/${filename}`, () =>
           Book.deleteOne({ _id: req.params.id })
             .then(() => res.status(200).json({ message: "Livre supprimé !" }))
@@ -100,6 +109,9 @@ exports.getBestBooks = (req, res, next) => {
     .then((books) => {
       res
         .status(200)
+        // Pour récupérer les meilleures livres, je clone mon tableau de datas;
+        // je les classe de façon décroissante avec sort, et splice me permet de
+        //récupérer les 3 premiers livres.
         .json(
           [...books]
             .sort((a, b) => b.averageRating - a.averageRating)
@@ -144,16 +156,13 @@ exports.postRating = (req, res, next) => {
         {...cloneBook}
         )
         .then(() => {
-          console.log("updateOne appelé");
           res.status(200).json(cloneBook);
         })
         .catch((err) => {
-          console.log("erreur 401");
           res.status(401).json({err});
         });
     })
     .catch((error) => {
-      console.log("erreur 400");
       res.status(400).json({ error });
     });
 };

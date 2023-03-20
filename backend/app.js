@@ -14,7 +14,7 @@ const userRoutes = require("./routes/user");
 const limiterDatas = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 300,
-  message: "Trop de requêtes API lancées (300 dans les 15 dernières minutes)."
+  message: "Trop de requêtes API lancées dans les 15 dernières minutes."
 });
 
 // Connexion Mongo via .env
