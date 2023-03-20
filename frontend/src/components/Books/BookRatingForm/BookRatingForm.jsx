@@ -22,28 +22,20 @@ function BookRatingForm({
   useEffect(() => {
     if (formState.dirtyFields.rating) {
       const rate = document.querySelector('input[name="rating"]:checked').value;
-      console.log(rate);
       setRating(parseInt(rate, 10));
-      console.log(rating);
       formState.dirtyFields.rating = false;
     }
   }, [formState]);
 
   const onSubmit = async () => {
-    console.log('formulaire envoyé');
     if (!connectedUser || !auth) {
       navigate(APP_ROUTES.SIGN_IN);
     }
     const update = await rateBook(id, userId, rating);
     if (update) {
-      console.log(update);
-      console.log(id);
-      console.log(userId);
-      console.log(rating);
       // eslint-disable-next-line no-underscore-dangle
       setBook({ ...update, id: update._id });
     } else {
-      console.log(update);
       alert(update);
     }
   };
