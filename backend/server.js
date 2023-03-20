@@ -1,6 +1,9 @@
 const http = require('http');
 const app = require('./app');
-
+const dotEnv = require("dotenv")
+dotEnv.config()
+const mongoRoute = process.env.MONGO_ROUTE;
+// Utilisation des variables d'environnement
 const normalizePort = val => {
   const port = parseInt(val, 10);
   if (isNaN(port)) {
@@ -40,7 +43,7 @@ const server = http.createServer(app);
 server.on('error', errorHandler);
 
 server.on('listening', () => {
-  const address = server.address();S
+  const address = server.address();
   console.log(address);
 console.log("!!!!!!!!!!!!!!");
   const bind = typeof address === 'string' ? 'pipe ' + address : 'port ' + port;
