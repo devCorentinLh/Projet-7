@@ -1,6 +1,8 @@
 const http = require('http');
 const app = require('./app');
+const helmet = require('helmet');
 
+app.use(helmet());
 const normalizePort = val => {
   const port = parseInt(val, 10);
   if (isNaN(port)) {
