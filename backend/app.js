@@ -11,7 +11,6 @@ const limiterDatas = rateLimit({
   message: "Trop de requêtes API lancées dans les 15 dernières minutes."}); // Limites les requêtes
 
 const mongooseConnect = require('./mongodb'); // Connexion Mongodb
-
 const app = express();
 
 app.use((req, res, next) => {
