@@ -5,7 +5,7 @@
 3 - Tapez cd frontend => npm install, attendez la fin de l'installation
 
 4 - Dans backend créer un fichier ".env" avec ces données:
-MONGO=adresse pour se connecté à mongodb
+MONGO=adresse pour se connecter à mongodb
 
 5 - Depuis la racine du dossier, cd backend => npm run dev (connexion avec le serveur et l'API);
 
