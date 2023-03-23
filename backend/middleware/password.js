@@ -1,7 +1,5 @@
 const passwordValidator = require("password-validator");
-
 const passwordSchema = new passwordValidator();
-
 
 //schema password
 passwordSchema
@@ -11,12 +9,11 @@ passwordSchema
 .has().lowercase()
 .has().digits(1)
 .has().not().spaces()
-.is().not().oneOf(["Passw0rd", "Password!"]);
+.is().not().oneOf(["Passw0rd!", "P4ssword!"]);
 
 //vérification schéma password
 module.exports = (req, res, next) => {
     if(passwordSchema.validate(req.body.password)) {
-
         next();
     } else {
         res

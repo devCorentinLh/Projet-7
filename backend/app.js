@@ -2,21 +2,15 @@ const express = require("express");
 const mongoose = require("mongoose");
 const path = require('path');
 const rateLimit = require("express-rate-limit");
-const dotEnv = require("dotenv").config();
-const mongoRoute = (process.env.MONGO);
 const stuffRoutes = require("./routes/stuff");
 const userRoutes = require("./routes/user");
 
-const limiterDatas = rateLimit({ 
-  windowMs: 15 * 60 * 1000,
-  max: 300,
+const limiterDatas = rateLimit({
+  windowMs: 10 * 60 * 1000,
+  max: 200,
   message: "Trop de requêtes API lancées dans les 15 dernières minutes."}); // Limites les requêtes
 
-mongoose.connect(mongoRoute,
-  { useNewUrlParser: true,
-    useUnifiedTopology: true })
-  .then(() => console.log('Connexion Mongo réussie'))
-  .catch(() => console.log('Connexion Mongo échouée')); // Connexion Mongo via .env
+const mongooseConnect = require('./mongodb'); // Connexion Mongodb
 
 const app = express();
 

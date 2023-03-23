@@ -5,7 +5,7 @@ exports.createBook = (req, res, next) => {
   const bookObject = JSON.parse(req.body.book);
 
   delete bookObject.userId;
-  
+
   const book = new Book({
     ...bookObject,
     //req.auth.userId récupère la valeur de l'utilisateur connecté
@@ -18,7 +18,7 @@ exports.createBook = (req, res, next) => {
   });
   book
     .save()
-    .then(() => res.status(201).json({ message: "Objet enregistré ! " }))
+    .then(() => res.status(201).json({ message: "Livre enregistré ! " }))
     .catch((error) => res.status(400).json({ error: bookObject }));
 };
 
@@ -30,7 +30,7 @@ exports.modifyBook = (req, res, next) => {
           req.file.filename
         }`,
       }
-    : { ...req.body };    
+    : { ...req.body };
   delete bookObject.userId;
   Book.findOne({ _id: req.params.id })
     .then((book) => {
@@ -38,7 +38,7 @@ exports.modifyBook = (req, res, next) => {
       if (book.userId !== req.auth.userId) {
         res
           .status(401)
-          .json({ message: "Vous n'êtes pas autorisé à modifier ce livre." });
+          .json({ message:"Vous n'êtes pas le créateur de ce livre." });
       } else {
         if (bookObject.imageUrl) {
           const filename = book.imageUrl.split("/images/")[1];
@@ -113,7 +113,7 @@ exports.postRating = (req, res, next) => {
       cloneBook.ratings = [{...newRating}, ...book.ratings];
 
       function calcAverageGrade(arr) {
-        let avr = Math.round((arr.reduce((acc, elem) => acc + elem.grade, 0) / arr.length) * 100) / 100;        
+        let avr = Math.round((arr.reduce((acc, elem) => acc + elem.grade, 0) / arr.length) * 100) / 100;
       // avr prend la somme des elem.grade et le divise par le nombre de grade
       // et Math.round * 100 / 100 permet d'arrondir à 2 chiffres après la virgule
         return avr;

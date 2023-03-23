@@ -5,8 +5,8 @@ const password = require("../middleware/password");
 const rateLimit = require("express-rate-limit");
 
 const limiterUserLogin = rateLimit({
-  windowMs: 5 * 60 * 1000, 
-  max: 10, 
+  windowMs: 5 * 60 * 1000,
+  max: 10,
   message: 'Trop de tentatives de connexion, réessayez dans 5 minutes'
 });
 
