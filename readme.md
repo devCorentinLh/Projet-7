@@ -7,6 +7,6 @@
 4 - Dans backend créer un fichier ".env" avec ces données:
 MONGO=adresse pour se connecter à mongodb
 
-5 - Depuis la racine du dossier, cd backend => npm run dev (connexion avec le serveur et l'API);
+5 - Depuis la racine du dossier, cd backend => npm run dev
 
-6 - Ouvrez un autre onglet dans le terminal, cd frontend => npm run start;
+6 - Ouvrez un autre onglet dans le terminal, cd frontend => npm run start
