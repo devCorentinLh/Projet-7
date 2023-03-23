@@ -7,7 +7,6 @@ exports.createUser = (req, res, next) => {
     email: req.body.email,
     password: req.body.password,
   });
-
   user.validate(function(err) {
     if (err) {
       res.status(400).json({ error: err.message });
@@ -25,8 +24,6 @@ exports.createUser = (req, res, next) => {
     }
   });
 };
-
-
 
 exports.loginUser = (req, res, next) => {
   User.findOne({ email: req.body.email })

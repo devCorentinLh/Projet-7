@@ -3,17 +3,13 @@ const fs = require("fs");
 
 exports.createBook = (req, res, next) => {
   const bookObject = JSON.parse(req.body.book);
-
   delete bookObject.userId;
-
   const book = new Book({
     ...bookObject,
-    //req.auth.userId récupère la valeur de l'utilisateur connecté
     userId: req.auth.userId,
     imageUrl: `${req.protocol}://${req.get("host")}/images/${
       req.file.filename
     }`,
-    // récupération de ratings.grade
     averageRating: bookObject.ratings[0].grade
   });
   book
@@ -92,7 +88,7 @@ exports.getBestBooks = (req, res, next) => {
         .status(200)
                 .json(
           [...books]
-            .sort((a, b) => b.averageRating - a.averageRating) // organisation de façon décroissante avec sort
+            .sort((a, b) => b.averageRating - a.averageRating) // tri décroissant avec sort
             .splice(0, 3) //remonte les 3 premiers livres
         );
     })
