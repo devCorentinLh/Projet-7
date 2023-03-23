@@ -2,7 +2,11 @@ const http = require('http');
 const app = require('./app');
 const helmet = require('helmet');
 
-app.use(helmet());
+app.use(
+  helmet({crossOriginResourcePolicy: {policy: "same-origin"},
+    crossOriginEmbedderPolicy: {policy: "require-corp"}
+  })
+);
 const normalizePort = val => {
   const port = parseInt(val, 10);
   if (isNaN(port)) {
