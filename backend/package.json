@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
+  "homepage": "https://devcorentinlh.github.io/Projet-7/",
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "node server",
     "dev": "nodemon server",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -24,5 +27,8 @@
     "rate-limit-redis": "^3.0.1",
     "ratelimit": "^0.0.4",
     "validator": "^13.9.0"
+  },
+  "devDependencies": {
+    "ghpages": "^0.0.10"
   }
 }
