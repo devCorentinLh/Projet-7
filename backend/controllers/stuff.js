@@ -16,8 +16,8 @@ exports.createBook = (req, res, next) => {
     .save()
     .then(() => res.status(201).json({ message: "Livre enregistré ! " }))
     .catch((error) => res.status(400).json({ error: bookObject }));
+// ajout d'une fonction resize pour redimensionner les images
 };
-
 exports.modifyBook = (req, res, next) => {
   const bookObject = req.file
     ? {
@@ -96,38 +96,43 @@ exports.getBestBooks = (req, res, next) => {
 };
 exports.getOneBook = (req, res, next) => {
   Book.findOne({ _id: req.params.id })
-    .then((book) => res.status(200).json(book))
-    .catch((error) => res.status(400).json({ error }));
-};
-exports.postRating = (req, res, next) => {
-  const newRating = { ...req.body };
-  newRating.grade = newRating.rating;
-  delete newRating.rating;  // modification de rating en grade pour correspondre au front
-  Book.findOne({ _id: req.params.id })
-    .then((book) => {
-      const cloneBook = {...book._doc};
-      cloneBook.ratings = [{...newRating}, ...book.ratings];
+  .then((book) => {
+    //ajout de la vérification de l'userId et du rating du user connecté
+    // const userId = req.auth.userId;
+    // const userRating = book.ratings.find((rating) => rating.userId === userId);
+    const imageUrl = `${req.protocol}://${req.get("host")}/images/${book.imageUrl.split("/images/")[1]}`;
+  res.status(200).json({...book._doc, imageUrl});
+  })
+  .catch((error) => {
+  res.status(400).json({ error });
+  });
+  };
 
-      function calcAverageGrade(arr) {
-        let avr = Math.round((arr.reduce((acc, elem) => acc + elem.grade, 0) / arr.length) * 100) / 100;
-      // avr prend la somme des elem.grade et le divise par le nombre de grade
-      // et Math.round * 100 / 100 permet d'arrondir à 2 chiffres après la virgule
-        return avr;
-      };
-      cloneBook.averageRating = calcAverageGrade(cloneBook.ratings);
-
-      Book.updateOne(
-        { _id: req.params.id },
-        {...cloneBook}
+  exports.postRating = (req, res, next) => {
+    const newRating = { ...req.body };
+    newRating.grade = newRating.rating;
+    delete newRating.rating;
+    Book.findOne({ _id: req.params.id })
+      .then((book) => {
+        const cloneBook = { ...book._doc };
+        cloneBook.ratings.push(newRating); // Ajouter la nouvelle note à la fin du tableau
+        function calcAverageGrade(arr) {
+          let avr = Math.round((arr.reduce((acc, elem) => acc + elem.grade, 0) / arr.length) * 100) / 100;
+          return avr;
+        };
+        cloneBook.averageRating = calcAverageGrade(cloneBook.ratings);
+        Book.updateOne(
+          { _id: req.params.id },
+          { ...cloneBook }
         )
-        .then(() => {
-          res.status(200).json(cloneBook);
-        })
-        .catch((err) => {
-          res.status(401).json({err});
-        });
-    })
-    .catch((error) => {
-      res.status(400).json({ error });
-    });
-};
+          .then(() => {
+            res.status(200).json(cloneBook);
+          })
+          .catch((err) => {
+            res.status(401).json({ err });
+          });
+      })
+      .catch((error) => {
+        res.status(400).json({ error });
+      });
+  };

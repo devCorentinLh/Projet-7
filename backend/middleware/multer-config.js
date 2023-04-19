@@ -2,9 +2,9 @@ const multer = require("multer");
 
 const MIME_TYPES = {
     "image/jpg" : "jpg",
-    "image/jpeg" : "jpg",
+    "image/jpeg" : "jpeg",
     "image/png" : "png",
-    "image/bmp" : "bmp",
+    "image/webp" : "webp",
 };
 
 const storage = multer.diskStorage({
@@ -17,5 +17,5 @@ const storage = multer.diskStorage({
         callback(null, name + Date.now() + "." + extension);
     }
 });
-
+// rajouter if et else avec console log pour voir si ça fonctionne
 module.exports = multer({storage}).single("image");

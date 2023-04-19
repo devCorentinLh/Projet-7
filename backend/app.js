@@ -9,7 +9,7 @@ const helmet = require('helmet');
 const limiterDatas = rateLimit({
   windowMs: 10 * 60 * 1000,
   max: 200,
-  message: "Trop de requêtes API lancées dans les 15 dernières minutes."}); // Limites les requêtes
+  message: "Trop de requêtes API lancées dans les 10 dernières minutes."}); // Limites les requêtes
 
 const mongooseConnect = require('./mongodb'); // Connexion Mongodb
 const app = express();

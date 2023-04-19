@@ -9,10 +9,8 @@ const userSchema = mongoose.Schema({
     validate: {
       validator: function(v) {
         return /\S+@\S+\.\S{2,}/.test(v);
-      },
-      message: props => `${props.value} n'est pas une adresse email valide!`
-           + '  Votre adresse email doit respecter la forme "adresse@domaine.com". Veuillez réessayer avec une adresse email valide.'
-          }
+      }
+    }
   },
   password: { type: String, required: true },
 });
