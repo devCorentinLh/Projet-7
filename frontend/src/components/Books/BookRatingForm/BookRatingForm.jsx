@@ -26,12 +26,12 @@ function BookRatingForm({
       formState.dirtyFields.rating = false;
     }
   }, [formState]);
-
   const onSubmit = async () => {
     if (!connectedUser || !auth) {
       navigate(APP_ROUTES.SIGN_IN);
     }
     const update = await rateBook(id, userId, rating);
+    console.log(update);
     if (update) {
       // eslint-disable-next-line no-underscore-dangle
       setBook({ ...update, id: update._id });
@@ -39,11 +39,10 @@ function BookRatingForm({
       alert(update);
     }
   };
-
   return (
     <div className={styles.BookRatingForm}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <p>{!userRated ? 'Notez cet ouvrage' : 'Votre Note'}</p>
+        <p>{rating > 0 ? 'Votre Note' : 'Notez cet ouvrage'}</p>
         <div className={styles.Stars}>
           {!userRated ? generateStarsInputs(rating, register) : displayStars(rating)}
         </div>
