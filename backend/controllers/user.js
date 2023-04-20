@@ -3,9 +3,12 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
 exports.createUser = (req, res, next) => {
+  // Récupérer l'adresse email en minuscules
+  const email = req.body.email.toLowerCase();
+
   // Création d'un utilisateur avec les informations envoyées dans le corps de la requête
   const user = new User({
-    email: req.body.email,
+    email: email,
     password: req.body.password,
   });
 
@@ -29,8 +32,11 @@ exports.createUser = (req, res, next) => {
 };
 
 exports.loginUser = (req, res, next) => {
+  // Récupérer l'adresse email en minuscules
+  const email = req.body.email.toLowerCase();
+
   // Chercher l'utilisateur correspondant à l'email envoyé dans la requête
-  User.findOne({ email: req.body.email })
+  User.findOne({ email: email })
     .then((user) => {
       if (!user) { // Si aucun utilisateur n'est trouvé, retourner une erreur
         return res
