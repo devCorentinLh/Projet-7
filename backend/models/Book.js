@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+// Création du schéma de données pour les livres
 const bookSchema = mongoose.Schema({
   userId: { type: String},
   title: { type: String, required: true },

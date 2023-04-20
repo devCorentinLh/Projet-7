@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");
 
+// Création du schéma de données pour les utilisateurs
 const userSchema = mongoose.Schema({
   email: {
     type: String,
@@ -15,6 +16,6 @@ const userSchema = mongoose.Schema({
   password: { type: String, required: true },
 });
 
-userSchema.plugin(uniqueValidator);
+userSchema.plugin(uniqueValidator);// Ajouter le plugin uniqueValidator au schéma de données
 
 module.exports = mongoose.model("User", userSchema)

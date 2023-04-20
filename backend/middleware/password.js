@@ -1,7 +1,7 @@
 const passwordValidator = require("password-validator");
 const passwordSchema = new passwordValidator();
 
-//schema password
+// Schema du mot de passe à respecter
 passwordSchema
 .is().min(6)
 .is().max(12)
@@ -11,7 +11,6 @@ passwordSchema
 .has().not().spaces()
 .is().not().oneOf(["Passw0rd!", "P4ssword!"]);
 
-//vérification schéma password
 module.exports = (req, res, next) => {
     if(passwordSchema.validate(req.body.password)) {
         next();
