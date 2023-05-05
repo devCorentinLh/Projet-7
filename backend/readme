@@ -1,0 +1,5 @@
+Tapez cd backend => npm install
+
+Dans backend modifier le fichier ".env.exemple" en ".env" et ajouter les valeurs des variables
+
+Depuis la racine du dossier, cd backend => npm run dev (connexion avec le serveur et l'API)
