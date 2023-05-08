@@ -1,6 +1,9 @@
 const bcrypt = require("bcrypt");
+// bcrypt est utilisé pour hasher le mot de passe de l'utilisateur avant de l'enregistrer dans la base de données
 const jwt = require("jsonwebtoken");
+// jsonwebtoken est utilisé pour attribuer un jeton d'authentification à un utilisateur au moment de la connexion
 const User = require("../models/User");
+// Importer le modèle User
 
 exports.createUser = (req, res, next) => {
   // Récupérer l'adresse email en minuscules
@@ -16,7 +19,9 @@ exports.createUser = (req, res, next) => {
   user.validate(function(err) {
     if (err) { // Si une erreur de validation survient, retourner une réponse avec l'erreur
       res.status(400).json({ error: err.message });
-    } else { // Sinon, hasher le mot de passe et enregistrer l'utilisateur
+    } else {
+      // Sinon, hasher le mot de passe et enregistrer l'utilisateur
+      // Bcrypt va hasher le mot de passe envoyé avec un coût de 10 pour créer une chaîne de caractères sécurisée
       bcrypt
         .hash(req.body.password, 10) // Hasher le mot de passe avec un coût de 10
         .then((hash) => {
@@ -43,6 +48,7 @@ exports.loginUser = (req, res, next) => {
           .status(401)
           .json({ error: "Paire utilisateur/mot de passe incorrect !" });
       }
+      // Bcrypt va hasher le mot de passe envoyé et le comparer avec le hash enregistré dans la base de données
       bcrypt
         .compare(req.body.password, user.password)
         // Comparer le mot de passe envoyé avec celui enregistré dans la base de données

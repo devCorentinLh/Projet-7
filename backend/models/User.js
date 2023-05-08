@@ -11,11 +11,14 @@ const userSchema = mongoose.Schema({
       validator: function(v) {
         return /\S+@\S+\.\S{2,}/.test(v);
       }
-    }
+    },
+    uniqueCaseInsensitive: true
   },
   password: { type: String, required: true },
 });
 
-userSchema.plugin(uniqueValidator);// Ajouter le plugin uniqueValidator au schéma de données
+// Ajouter le plugin uniqueValidator au schéma de données
+// Pour garantir que deux utilisateurs ne peuvent pas partager la même adresse email
+userSchema.plugin(uniqueValidator);
 
 module.exports = mongoose.model("User", userSchema)
