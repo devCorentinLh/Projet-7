@@ -4,11 +4,12 @@ const jwt = require("jsonwebtoken");
 // jsonwebtoken est utilisé pour attribuer un jeton d'authentification à un utilisateur au moment de la connexion
 const User = require("../models/User");
 // Importer le modèle User
+const hashNumber =  (process.env.HASH);
+// Importer le nombre de hachages du mot de passe stocké dans le fichier .env
 
 exports.createUser = (req, res, next) => {
   // Récupérer l'adresse email en minuscules
   const email = req.body.email.toLowerCase();
-
   // Création d'un utilisateur avec les informations envoyées dans le corps de la requête
   const user = new User({
     email: email,
@@ -23,7 +24,7 @@ exports.createUser = (req, res, next) => {
       // Sinon, hasher le mot de passe et enregistrer l'utilisateur
       // Bcrypt va hasher le mot de passe envoyé avec un coût de 10 pour créer une chaîne de caractères sécurisée
       bcrypt
-        .hash(req.body.password, 10) // Hasher le mot de passe avec un coût de 10
+        .hash(req.body.password, hashNumber) // Hasher le mot de passe avec un coût stocké dans le fichier .env
         .then((hash) => {
           user.password = hash;
           user
@@ -63,7 +64,7 @@ exports.loginUser = (req, res, next) => {
             userId: user._id, // Ajouter l'ID de l'utilisateur à la réponse
             token: jwt.sign({ userId: user._id }, "RANDOM_TOKEN_SECRET", {
               // Créer un jeton d'authentification avec l'ID de l'utilisateur
-              expiresIn: "5h", // Le jeton expirera après 5 heures
+              expiresIn: "4h", // Le jeton expirera après 4 heures
             }),
           });
         })

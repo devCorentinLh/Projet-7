@@ -1,18 +1,14 @@
 const express = require("express");
 const path = require('path');
-const rateLimit = require("express-rate-limit");
 const stuffRoutes = require("./routes/stuff");
 const userRoutes = require("./routes/user");
 const helmet = require('helmet');
 
 // Limite le nombre de requêtes API lancées dans les 10 dernières minutes
-const limiterDatas = rateLimit({
-  windowMs: 10 * 60 * 1000,
-  max: 200,
-  message: "Trop de requêtes API lancées dans les 10 dernières minutes."});
+const limiterDatas = require("./middleware/ratelimit");
 
 // Connexion à la base de données MongoDB
-const mongooseConnect = require('./mongodb');
+const mongooseConnect = require('./middleware/mongodb');
 const app = express();
 
 // Helmet

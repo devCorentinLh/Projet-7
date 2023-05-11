@@ -36,7 +36,7 @@ exports.createBook = (req, res, next) => {
       // appel de la fonction resize pour redimensionner l'image
       resizeImage(req.file.path)
         .then(() => {
-          res.status(201).json({ message: "Livre enregistré !" });
+          res.status(201).json({ message: "Livre enregistré !" }); // Requête traitée avec succès et création d’un document
         })
         .catch((err) => {
           console.log(err);
@@ -111,18 +111,18 @@ exports.deleteBook = (req, res, next) => {
   Book.findOne({ _id: req.params.id })
     .then((book) => {
       if (book.userId !== req.auth.userId) {
-        res.status(401).json({ message: "Non autorisé" });
+        res.status(401).json({ message: "Non autorisé" }); // requête non autorisé
       } else {
         const filename = book.imageUrl.split("/images/")[1];
         fs.unlink(`images/${filename}`, () =>
           Book.deleteOne({ _id: req.params.id })
-            .then(() => res.status(200).json({ message: "Livre supprimé !" }))
-            .catch((err) => res.status(400).json({ err }))
+            .then(() => res.status(200).json({ message: "Livre supprimé !" })) // Requête traitée avec succès
+            .catch((err) => res.status(400).json({ err })) // Erreur de la requête
         );
       }
     })
     .catch((error) => {
-      res.status(500).json({ error });
+      res.status(500).json({ error }); // Erreur interne du serveur
     });
 };
 

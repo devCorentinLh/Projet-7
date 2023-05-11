@@ -2,12 +2,13 @@
   "name": "backend",
   "version": "1.0.0",
   "main": "server.js",
-  "homepage": "",
+  "homepage": "https://devcorentinlh.github.io/Mon-Vieux-Grimoire",
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "start": "node server",
     "dev": "nodemon server",
+    "build":"tsc && npm run build:css",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
