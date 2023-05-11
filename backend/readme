@@ -1,5 +1,5 @@
 Tapez cd backend => npm install
 
-Dans backend modifier le fichier ".env.exemple" en ".env" et ajouter les valeurs des variables
+Dans backend modifier le fichier ".env.exemple" dans le dossier "config" en ".env" et ajouter la valeur de MONGO
 
 Depuis la racine du dossier, cd backend => npm run dev (connexion avec le serveur et l'API)
