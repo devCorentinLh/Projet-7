@@ -1,21 +1,23 @@
 const express = require("express");
 const path = require('path');
 const stuffRoutes = require("./routes/stuff");
+const rateLimit = require("express-rate-limit");
+const dotEnv = require("dotenv").config({ path: "./config/.env" });
 const userRoutes = require("./routes/user");
-const helmet = require('helmet');
 
-// Limite le nombre de requêtes API lancées dans les 10 dernières minutes
-const limiterDatas = require("./middleware/ratelimit");
+// Limite le nombre de requêtes API lancées
+const limiterDatas = rateLimit({
+  windowMs: 5 * 60 * 1000, // 5 minutes
+  max: 50, // Limite à 50 requêtes
+  message: "Trop de requêtes."
+});
 
 // Connexion à la base de données MongoDB
 const mongooseConnect = require('./middleware/mongodb');
 const app = express();
 
 // Helmet
-app.use(helmet({
-      crossOriginResourcePolicy: {policy: "same-site"},
-    crossOriginEmbedderPolicy: {policy: "require-corp"}
-  }));
+const Helmet = require('./middleware/helmet');
 
 // CORS
 app.use((req, res, next) => {

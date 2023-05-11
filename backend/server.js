@@ -1,13 +1,8 @@
 const http = require('http');
 const app = require('./app');
-const helmet = require('helmet');
 
 // Helmet
-app.use(
-  helmet({crossOriginResourcePolicy: {policy: "same-origin"},
-    crossOriginEmbedderPolicy: {policy: "require-corp"}
-  })
-);
+const Helmet = require('./middleware/helmet');
 
 // renvoie un port valide, qu'il soit fourni sous la forme d'un numéro ou d'une chaîne
 const normalizePort = val => {

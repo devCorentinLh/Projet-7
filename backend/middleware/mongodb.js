@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const dotEnv = require("dotenv").config();
+const dotEnv = require("dotenv").config({ path: "./config/.env" });
 const mongoRoute = (process.env.MONGO);
 
 // Connexion à la base de données MongoDB
