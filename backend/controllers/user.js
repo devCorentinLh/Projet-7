@@ -6,7 +6,6 @@ const User = require("../models/User");
 // Importer le modèle User
 const path = require('path');
 const dotEnv = require("dotenv").config({ path: "./config/.env" });
-const hashNumber = (process.env.HASH);
 const temp = (process.env.TOKEN_TEMP);
 
 exports.createUser = (req, res, next) => {
@@ -27,7 +26,7 @@ exports.createUser = (req, res, next) => {
       // Sinon, hasher le mot de passe et enregistrer l'utilisateur
       // Bcrypt va hasher le mot de passe envoyé avec un coût de 10 pour créer une chaîne de caractères sécurisée
       bcrypt
-        .hash(req.body.password, hashNumber) // Hasher le mot de passe avec un coût définie dans le .env
+        .hash(req.body.password, 10) // Hasher le mot de passe avec un coût de 10
         .then((hash) => {
           user.password = hash;
           user
